@@ -28,7 +28,7 @@ while is_race_on:
             if winner == user_bet:
                 print("You have won!")
             else:
-                print("You loose! The {winner} turtle won the race.")
+                print(f"You loose! The {winner} turtle won the race.")
             is_race_on = False
 
         rand_distance = random.randint(0, 10)
