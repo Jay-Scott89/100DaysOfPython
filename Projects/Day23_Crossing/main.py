@@ -4,43 +4,48 @@ from scoreboard import Scoreboard
 import time
 from turtle import Screen
 
+# Stop the game
+def stop_game():
+    global game_is_on
+    game_is_on = False
+    scoreboard.game_over()
+
 # Set up screen and objects
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.tracer(0)
+
 player = Player()
 car_manager = CarManager()
 scoreboard = Scoreboard()
 
-# Detect players movement
-screen.listen()
-screen.onkey(player.move, "w")
-
-# Set game variables
 game_is_on = True
 
+# Controls
+screen.listen()
+screen.onkey(player.move, "w")
+screen.onkey(stop_game, "space")
+
+# Game Loop
 while game_is_on:
     time.sleep(0.1)
     screen.update()
 
-    # Spawn cars and move them across the screen    
+    # Car behaviour    
     car_manager.create_car()
     car_manager.move_car()
 
-    # Detect impact with a car
+    # Collision
     for car in car_manager.all_cars:
         if car.distance(player) < 20:
-            game_is_on = False
+            player.reset_position()
+            scoreboard.reset()
 
-    # Detect if the player makes it to the other side
+    # Player reaches finish
     if player.is_at_finish_line():
         player.reset_position()
         car_manager.level_up()
         scoreboard.increase_level()
 
-scoreboard.game_over()
+# Exit
 screen.exitonclick()
-
-#TODO change speeds
-#TODO Show levels
-#TODO Game over screen
