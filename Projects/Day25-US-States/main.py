@@ -28,11 +28,12 @@ while game_is_on:
         guessed_states.add(answer_state)
         score += 1
 
-missed_states = []
-for state in all_states:
-    if state not in guessed_states:
-        missed_states.append(state)
-learning_output = pandas.DataFrame(missed_states)
+# missed_states = []
+# for state in all_states:
+#     if state not in guessed_states:
+#         missed_states.append(state)
+new_list = [state for state in all_states if state not in guessed_states]
+learning_output = pandas.DataFrame(new_list)
 learning_output.to_csv(fr"C:\Users\Jamie\OneDrive\Documents\Cyber\100DaysOfPython\Projects\Day25-US-States\missed_states.csv")
 
 
